@@ -56,6 +56,48 @@ class ExtantUtils {
                 type: Scratch.ArgumentType.STRING
               }
             }
+          },
+          {
+            opcode: 'invert',
+            blockType: Scratch.BlockType.REPORTER,
+            text: '-[IN]',
+            arguments: {
+              IN: {
+                type: Scratch.ArgumentType.STRING
+              }
+            }
+          },
+          {
+            opcode: 'findsplitlength',
+            blockType: Scratch.BlockType.REPORTER,
+            text: '# of items in [IN] split with [SPLIT]',
+            arguments: {
+              IN: {
+                type: Scratch.ArgumentType.STRING
+              },
+              SPLIT: {
+                type: Scratch.ArgumentType.STRING
+              }
+            }
+          },
+          {
+            opcode: 'splitreplace',
+            blockType: Scratch.BlockType.REPORTER,
+            text: 'replace item [ITEM] of [STR] split by [SPLIT] with [IN]',
+            arguments: {
+              IN: {
+                type: Scratch.ArgumentType.STRING
+              },
+              SPLIT: {
+                type: Scratch.ArgumentType.STRING
+              },
+              ITEM: {
+                type: Scratch.ArgumentType.STRING
+              },
+              STR: {
+                type: Scratch.ArgumentType.STRING
+              }
+            }
           }
         ]
       };
@@ -77,6 +119,22 @@ class ExtantUtils {
       } else 
       return(args.IN);
     }
+    invert(args) {
+      return args.IN * -1
+    }
+    findsplitlength(args) {
+      const str = args.IN
+      const arr = str.split(args.SPLIT)
+      return arr;
+    }
+    splitreplace(args) {
+      const str = args.STR
+      const input = Scratch.Cast.toNumber(args.ITEM) - 1
+      let arr = str.split(args.SPLIT)
+      arr[input] = args.IN
+      return arr.join(args.SPLIT)
+    }
+
   }
   
   Scratch.extensions.register(new ExtantUtils());
